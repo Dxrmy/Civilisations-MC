@@ -1,0 +1,71 @@
+plugins {
+    id 'net.fabricmc.fabric-loom-no-remap' version '1.14.0-alpha.31'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    maven { url "https://maven.fabricmc.net/" }
+    maven { url "https://maven.shedaniel.me/" } // Cloth Config
+    maven { url "https://maven.terraformersmc.com/releases/" } // Mod Menu
+    maven { url "https://maven.ladysnake.org/releases" } // Cardinal Components
+    maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' } // GeckoLib
+    flatDir { dirs 'libs' }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    // Fabric API
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // Cardinal Components (Chunk/World Data)
+    implementation files("libs/cardinal-components-api-7.3.0.jar")
+
+    // Cloth Config (Configuration)
+    // implementation files("libs/cloth-config-21.11.153-fabric.jar")
+    // include files("libs/cloth-config-21.11.153-fabric.jar")
+
+    // GeckoLib (Animation)
+    // implementation files("libs/geckolib-fabric-1.21.11-5.4.2.jar")
+    
+    // Physics Mod Pro (Optional integration)
+    // implementation files("libs/physics-mod-pro-v181i-fabric-1.21.11.jar")
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.base.archivesName.get()}" }
+    }
+}
+
+task printClasspath {
+    doLast {
+        configurations.compileClasspath.each { println it }
+    }
+}

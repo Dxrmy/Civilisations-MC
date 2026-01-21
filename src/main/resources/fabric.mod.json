@@ -1,0 +1,34 @@
+{
+    "schemaVersion": 1,
+    "id": "civilizations",
+    "version": "${version}",
+    "name": "Civilizations RTS",
+    "description": "A world where villages grow, build, and conquer without player input.",
+    "authors": [
+        "Eni"
+    ],
+    "contact": {
+        "homepage": "https://example.com/",
+        "sources": "https://github.com/username/Civilizations"
+    },
+    "license": "All Rights Reserved",
+    "icon": "assets/civilizations/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "com.eni.civilizations.CivilizationsMod"
+        ]
+    },
+    "mixins": [
+        "civilizations.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.16.5",
+        "minecraft": "~1.21.1",
+        "java": ">=21",
+        "fabric-api": "*"
+    },
+    "suggests": {
+        "another-mod": "*"
+    }
+}
